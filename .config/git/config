@@ -1,0 +1,8 @@
+[core]
+	editor = vim -u "$HOME/.config/git/vimrc"
+[color]
+	ui = auto
+[push]
+	default = simple
+[magit]
+	hideCampaign = true

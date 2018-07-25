@@ -1,0 +1,28 @@
+set nocompatible              " be iMproved, required
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+"
+" let Vundle manage Vundle, required
+Plugin 'gmarik/Vundle.vim'
+Plugin 'altercation/vim-colors-solarized'
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+" General settings
+syntax on
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set number
+set colorcolumn=80
+let mapleader=","
+set backspace=indent,eol,start
+
+" General mappings
+imap kj <Esc>
+
+" Solarized stuff
+set background=dark
+colorscheme solarized
+set t_Co=16

@@ -1,0 +1,82 @@
+set nocompatible              " be iMproved, required
+if empty(glob('$HOME/.vim/autoload/plug.vim'))
+  silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+
+call plug#begin()
+Plug 'w0rp/ale'
+Plug 'altercation/vim-colors-solarized'
+Plug 'Raimondi/delimitMate'
+Plug 'junegunn/fzf.vim'
+Plug 'fholgado/minibufexpl.vim'
+Plug 'mileszs/ack.vim'
+Plug 'tomtom/tcomment_vim'
+call plug#end()
+
+filetype plugin indent on
+
+" General settings
+syntax on
+set colorcolumn=80
+set expandtab
+set hlsearch
+set ignorecase
+set laststatus=2
+set number
+set shiftwidth=4
+set showcmd
+set tabstop=4
+let mapleader="\\"
+map <Space> <Leader>
+au BufRead,BufNewFile *.md set filetype=markdown
+set backspace=indent,eol,start
+
+" Switch the local working directory of each window to the parent of the
+" current file. This is to help with things like fzf's GFiles command looking
+" in the right place and SyntasticCheck finding the local .pylintrc file. If
+" it messes up other things, switch to wrapping those commands to switch the
+" working directory and then switch it back.
+autocmd BufEnter * silent! lcd %:p:h
+
+set statusline=
+set statusline +=%4*\ %<%F%*            "full path
+set statusline +=%2*%m%*                "modified flag
+set statusline +=%1*%=%5l%*             "current line
+set statusline +=%2*/%L%*               "total lines
+set statusline +=%1*%4v\ %*             "virtual column number
+
+" General mappings
+imap kj <Esc>
+inoremap <c-s> <c-o>:update<CR>
+map Q :wqa<CR>
+
+" Solarized stuff
+set background=dark
+colorscheme solarized
+set t_Co=16
+
+" delimitMate
+let delimitMate_expand_cr = 1
+
+" Minibufexplorer
+map <leader>b :MBEToggle<CR>
+
+" Ack
+function MyAck(args)
+    " Run Ack from git root rather than subdirectory
+    let l:gitdir = system("git rev-parse --show-toplevel 2>/dev/null")
+    let l:ackargs = empty(a:args) ? expand("<cword>") : a:args . join(a:000, ' ')
+    if !empty(l:gitdir) 
+        let l:ackargs = l:ackargs . ' ' . l:gitdir
+    endif
+    execute 'Ack! ' . l:ackargs
+endfunction
+command -nargs=* MyAck :call MyAck(<q-args>)
+nmap <leader>a <Esc>:MyAck 
+let g:ackprg = 'ag --vimgrep --smart-case'
+
+" FZF
+nmap <leader>f :GFiles<CR>
