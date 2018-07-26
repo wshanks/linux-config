@@ -59,7 +59,12 @@ complete -o bashdefault -o default -o filenames -F _git-annex ga
 # readline
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 # yadm
+[ -f /usr/share/doc/yadm/yadm.bash_completion ] && source /usr/share/doc/yadm/yadm.bash_completion
 alias pyadm='yadm --yadm-dir "$HOME/.pyadm"'
+if [ -z ${_yadm+x} ]; then
+    complete -o bashdefault -o default -F _yadm pyadm 2>/dev/null \
+        || complete -o default -F _yadm pyadm
+fi
 
 if [ -f "$HOME/.bashrc_local" ]; then
     . "$HOME/.bashrc_local"
