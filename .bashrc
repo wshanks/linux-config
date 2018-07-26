@@ -2,7 +2,7 @@
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
-	. /etc/bashrc
+    . /etc/bashrc
 fi
 
 # User specific aliases and functions
@@ -24,8 +24,15 @@ source /usr/share/git-core/contrib/completion/git-prompt.sh
 CLEAN_PS1="$PS1"
 __my_git_ps1 ()
 {
-	local g="$(__gitdir)"
-	if [ -z "$g" ] ||
+    local g
+    if [ -z ${__gitdir+x} ]; then
+        g="$(git rev-parse --git-dir --is-inside-git-dir \
+             --is-bare-repository --is-inside-work-tree \
+             --short HEAD 2>/dev/null)"
+    else
+        g="$(__gitdir)"
+    fi
+    if [ -z "$g" ] ||
        [ "$(git config --bool bash.hideGitPrompt)" == "true" ]
     then
         PS1="$CLEAN_PS1"
@@ -55,5 +62,5 @@ export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 alias pyadm='yadm --yadm-dir "$HOME/.pyadm"'
 
 if [ -f "$HOME/.bashrc_local" ]; then
-	. "$HOME/.bashrc_local"
+    . "$HOME/.bashrc_local"
 fi
