@@ -82,14 +82,32 @@
  t)
 (package-initialize)
 
-(global-flycheck-mode)
-(setq flycheck-check-syntax-automatically '(mode-enabled save idle-change))
-(setq flycheck-idle-change-delay 10)
+;; Install non-distributed package
+(unless (package-installed-p 'frame-fns)
+  (require 'url)
+  (url-copy-file "https://raw.githubusercontent.com/emacsmirror/frame-fns/master/frame-fns.el" "/tmp/frame-fns.el" t)
+  (package-install-file "/tmp/frame-fns.el"))
+
+;; Install non-distributed package
+(unless (package-installed-p 'modeline-posn)
+  (require 'url)
+  (url-copy-file "https://raw.githubusercontent.com/emacsmirror/modeline-posn/master/modeline-posn.el" "/tmp/modeline-posn.el" t)
+  (package-install-file "/tmp/modeline-posn.el"))
+
+(unless (package-installed-p 'use-package)
+   (package-refresh-contents)
+   (package-install 'use-package))
 
 (eval-when-compile
   (require 'use-package))
 ;; (require 'bind-key)                ;; if you use any :bind variant
 (setq use-package-always-ensure t)
+
+(use-package flycheck
+  :config
+  (global-flycheck-mode)
+  (setq flycheck-check-syntax-automatically '(mode-enabled save idle-change))
+  (setq flycheck-idle-change-delay 10))
 
 (use-package diminish
   :config
