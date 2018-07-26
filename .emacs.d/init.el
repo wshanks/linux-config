@@ -20,6 +20,9 @@
                              (if (display-graphic-p frame)
                                   1 0)))
 (add-hook 'after-make-frame-functions 'contextual-menubar)
+(set-face-attribute 'tool-bar nil
+                    :background "dim gray"
+                    :foreground "light gray")
 
 (setq-default custom-file (expand-file-name "custom.el" user-emacs-directory))
 (when (file-exists-p custom-file)
