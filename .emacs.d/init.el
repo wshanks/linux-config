@@ -88,13 +88,13 @@
 ;; Install non-distributed package
 (unless (package-installed-p 'frame-fns)
   (require 'url)
-  (url-copy-file "https://raw.githubusercontent.com/emacsmirror/frame-fns/master/frame-fns.el" "/tmp/frame-fns.el" t)
+  (url-copy-file "https://raw.githubusercontent.com/willsALMANJ/frame-fns/master/frame-fns.el" "/tmp/frame-fns.el" t)
   (package-install-file "/tmp/frame-fns.el"))
 
 ;; Install non-distributed package
 (unless (package-installed-p 'modeline-posn)
   (require 'url)
-  (url-copy-file "https://raw.githubusercontent.com/emacsmirror/modeline-posn/master/modeline-posn.el" "/tmp/modeline-posn.el" t)
+  (url-copy-file "https://raw.githubusercontent.com/willsALMANJ/modeline-posn/master/modeline-posn.el" "/tmp/modeline-posn.el" t)
   (package-install-file "/tmp/modeline-posn.el"))
 
 (unless (package-installed-p 'use-package)
