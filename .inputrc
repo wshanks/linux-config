@@ -5,6 +5,6 @@
 
 set completion-ignore-case On
 
-bind 'TAB':menu-complete
-bind "set show-all-if-ambiguous on"
-bind "set menu-complete-display-prefix on"
+TAB:menu-complete
+set show-all-if-ambiguous on
+set menu-complete-display-prefix on
