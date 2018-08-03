@@ -57,7 +57,7 @@ alias gdiff='git difftool -t vimdiff'
 alias ga='git-annex'
 complete -o bashdefault -o default -o filenames -F _git-annex ga
 # readline
-export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
+export INPUTRC="$HOME"/.config/readline/inputrc
 # yadm
 [ -f /usr/share/doc/yadm/yadm.bash_completion ] && source /usr/share/doc/yadm/yadm.bash_completion
 alias pyadm='yadm --yadm-dir "$HOME/.pyadm"'
