@@ -52,7 +52,11 @@ source /etc/profile.d/autojump.sh
 alias emacs-server='[ -z $(pgrep -ax -u $UID emacs) ] && emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el'
 alias emacsc='emacsclient -nw'
 # fzf
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+if [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
+    source /usr/share/fzf/shell/key-bindings.bash
+elif [ -f ~/.fzf.bash ]; then
+    source ~/.fzf.bash
+fi
 # git
 alias gdiff='git difftool -t vimdiff'
 # git-annex
