@@ -14,6 +14,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'fholgado/minibufexpl.vim'
 Plug 'mileszs/ack.vim'
 Plug 'tomtom/tcomment_vim'
+Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 filetype plugin indent on
@@ -22,8 +23,7 @@ filetype plugin indent on
 syntax on
 set colorcolumn=80
 set expandtab
-set hlsearch
-set ignorecase
+set hidden
 set laststatus=2
 set number
 set shiftwidth=4
@@ -33,6 +33,22 @@ let mapleader="\\"
 map <Space> <Leader>
 au BufRead,BufNewFile *.md set filetype=markdown
 set backspace=indent,eol,start
+"
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+"
+" Keep a minimum of 5 line below the cursor.
+set scrolloff=5
+" Keep a minimum of 5 columns left of the cursor.
+set sidescrolloff=5
+"
+set wildmode=longest,list,full
+set wildmenu
+"
+set list
+set listchars=tab:▸\ ,eol:¬
 
 " Switch the local working directory of each window to the parent of the
 " current file. This is to help with things like fzf's GFiles command looking
@@ -51,12 +67,18 @@ set statusline +=%1*%4v\ %*             "virtual column number
 " General mappings
 imap kj <Esc>
 inoremap <c-s> <c-o>:update<CR>
+noremap <c-s> :update<CR>
 map Q :wqa<CR>
 
 " Solarized stuff
 set background=dark
 colorscheme solarized
 set t_Co=16
+" ALE
+let g:ale_echo_msg_error_str = 'E'
+let g:ale_echo_msg_warning_str = 'W'
+let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+nmap <C-n> <Plug>(ale_next_wrap)
 
 " delimitMate
 let delimitMate_expand_cr = 1
