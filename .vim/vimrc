@@ -5,6 +5,23 @@ if empty(glob('$HOME/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+function! BuildYCM(info)
+  " info is a dictionary with 3 fields
+  " - name:   name of the plugin
+  " - status: 'installed', 'updated', or 'unchanged'
+  " - force:  set on PlugInstall! or PlugUpdate!
+  let cmd = "python -c " .
+              \ "'import sys; sys.path.insert(0, \"./third_party/ycmd\"); " .
+              \ "import os; " .
+              \ "stderr = sys.stderr; " .
+              \ "sys.stderr = open(os.devnull, \"w\"); " .
+              \ "import ycmd.server_utils; " .
+              \ "print(ycmd.server_utils.CompatibleWithCurrentCore() in [ycmd.server_utils.CORE_OUTDATED_STATUS, ycmd.server_utils.CORE_MISSING_STATUS])'"
+  if a:info.status == 'installed' || a:info.force || 
+              \(a:info.status == 'updated' && system(cmd)[0:3] == "True")
+    !./install.py
+  endif
+endfunction
 
 call plug#begin()
 Plug 'w0rp/ale'
@@ -15,6 +32,7 @@ Plug 'fholgado/minibufexpl.vim'
 Plug 'mileszs/ack.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 call plug#end()
 
 filetype plugin indent on
