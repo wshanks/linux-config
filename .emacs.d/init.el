@@ -12,6 +12,7 @@
 (show-paren-mode t)
 (setq ring-bell-function 'ignore)
 (setq inhibit-splash-screen t)
+(setq frame-background-mode 'dark)
 ;; Hide menu in terminal
 (defun contextual-menubar (&optional frame)
   "Hide menu bar in tty"
@@ -20,6 +21,7 @@
                              (if (display-graphic-p frame)
                                   1 0)))
 (add-hook 'after-make-frame-functions 'contextual-menubar)
+(add-hook 'after-init-hook 'contextual-menubar)
 (set-face-attribute 'tool-bar nil
                     :background "dim gray"
                     :foreground "light gray")
