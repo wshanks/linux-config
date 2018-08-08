@@ -318,8 +318,9 @@
     (setq ycmd-startup-timeout 10)
     :config
     (set-variable 'ycmd-server-command
-                  `(,(file-truename "~/anaconda3/envs/ycmd/bin/python")
-                    ,(file-truename "~/local_root/stow/ycmd/ycmd/")))
+                  `("/usr/bin/python"
+                    ,(file-truename "~/.vim/plugged/YouCompleteMe/third_party/ycmd/ycmd")))
+    (set-variable 'ycmd-python-binary-path "python")
     (add-hook 'python-mode-hook 'ycmd-mode)
     (add-hook 'python-mode-hook 'ycmd-eldoc-setup)
     (use-package company-ycmd
