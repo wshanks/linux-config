@@ -17,20 +17,25 @@ function! BuildYCM(info)
               \ "sys.stderr = open(os.devnull, \"w\"); " .
               \ "import ycmd.server_utils; " .
               \ "print(ycmd.server_utils.CompatibleWithCurrentCore() in [ycmd.server_utils.CORE_OUTDATED_STATUS, ycmd.server_utils.CORE_MISSING_STATUS])'"
-  if a:info.status == 'installed' || a:info.force || 
+  if a:info.status == 'installed' || a:info.force ||
               \(a:info.status == 'updated' && system(cmd)[0:3] == "True")
     !./install.py
   endif
 endfunction
 
 call plug#begin()
+Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
-Plug 'altercation/vim-colors-solarized'
 Plug 'Raimondi/delimitMate'
 Plug 'junegunn/fzf.vim'
-Plug 'fholgado/minibufexpl.vim'
-Plug 'mileszs/ack.vim'
 Plug 'tomtom/tcomment_vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-fugitive'
+Plug 'mhinz/vim-signify'
+" Plug 'fholgado/minibufexpl.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+" Plug 'itchyny/lightline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 call plug#end()
@@ -68,25 +73,179 @@ set wildmenu
 set list
 set listchars=tab:▸\ ,eol:¬
 
-" Switch the local working directory of each window to the parent of the
-" current file. This is to help with things like fzf's GFiles command looking
-" in the right place and SyntasticCheck finding the local .pylintrc file. If
-" it messes up other things, switch to wrapping those commands to switch the
-" working directory and then switch it back.
-autocmd BufEnter * silent! lcd %:p:h
-
-set statusline=
-set statusline +=%4*\ %<%F%*            "full path
-set statusline +=%2*%m%*                "modified flag
-set statusline +=%1*%=%5l%*             "current line
-set statusline +=%2*/%L%*               "total lines
-set statusline +=%1*%4v\ %*             "virtual column number
+set autochdir
 
 " General mappings
 imap kj <Esc>
 inoremap <c-s> <c-o>:update<CR>
 noremap <c-s> :update<CR>
 map Q :wqa<CR>
+
+" Helper functions
+" Strip trailing whitespace on saving a file.
+function! StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+map <leader>S :call StripTrailingWhitespaces()<CR>
+
+" Toggle between paste and no paste.
+function! TogglePaste()
+    if(&paste == 1)
+        set nopaste
+        echom "Switched to no paste."
+    else
+        set paste
+        echom "Switched to paste."
+    endif
+endfunc
+nmap <silent> <leader>p :call TogglePaste()<CR>
+
+" If a path ends in '//' then the swap file name is
+" built from the entire path. No more issues between projects.
+
+" Change swap directory.
+if isdirectory($HOME . '/.vim/swap') == 0
+    call mkdir($HOME . '/.vim/swap', 'p')
+endif
+set directory=~/.vim/swap//
+
+" Change backup directory.
+if isdirectory($HOME . '/.vim/backup') == 0
+    call mkdir($HOME . '/.vim/backup', 'p')
+endif
+set backupdir=~/.vim/backup//
+
+if exists('+undofile')
+    " Change undo directory.
+    if isdirectory($HOME . '/.vim/undo') == 0
+        call mkdir($HOME . '/.vim/undo', 'p')
+    endif
+    set undodir=~/.vim/undo//
+end
+
+if has("autocmd")
+    augroup AutoSwap
+        autocmd!
+        autocmd! SwapExists * call _HandleSwap(expand('<afile>:p'))
+    augroup END
+endif
+
+function! _HandleSwap(filename)
+    " If the swap file is old, delete. If it is new, recover.
+    if getftime(v:swapname) < getftime(a:filename)
+        let v:swapchoice = 'e'
+        call _EchoSwapMessage("Deleted older swapfile.")
+    else
+        let v:swapchoice = 'r'
+        call _EchoSwapMessage("Detected newer swapfile, recovering.")
+    endif
+endfunc
+
+function! _EchoSwapMessage(message)
+    if has("autocmd")
+        augroup EchoSwapMessage
+            autocmd!
+            " Echo the message after entering a file, useful for
+            " when we're entering a file (like on SwapExists)
+            " and our echo will be eaten.
+            autocmd BufWinEnter * echohl WarningMsg
+            exec 'autocmd BufWinEnter * echon "\r'.printf("%-60s", a:message).'"'
+            autocmd BufWinEnter * echohl NONE
+
+            " Remove these auto commands so that they don't run on entering the next buffer.
+            autocmd BufWinEnter * augroup EchoSwapMessage
+            autocmd BufWinEnter * autocmd!
+            autocmd BufWinEnter * augroup END
+        augroup END
+    endif
+endfunction
+
+
+" set statusline=
+" set statusline +=%4*\ %<%F%*            "full path
+" set statusline +=%2*%m%*                "modified flag
+" set statusline +=%1*%=%5l%*             "current line
+" set statusline +=%2*/%L%*               "total lines
+" set statusline +=%1*%4v\ %*             "virtual column number
+set noshowmode
+let g:airline_theme='solarized'
+let g:airline_extensions = ['quickfix',
+            \ 'fugitiveline', 'hunks', 'ale', 'branch', 'tabline']
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+let g:airline_section_z = '%3l/%L:%3v'
+" let g:lightline = {
+" \     'colorscheme': 'solarized',
+" \     'active': {
+" \       'left': [
+" \           [ 'mode' ],
+" \           [ 'paste', 'gitbranch', 'readonly', 'filename' ]
+" \       ]
+" \     },
+" \     'component_function': {
+" \       'gitbranch': 'fugitive#head',
+" \       'readonly': 'LightlineReadonly',
+" \       'fileformat': 'LightlineFileformat',
+" \       'filetype': 'LightlineFiletype',
+" \       'filename': 'LightlineFilename'
+" \     }
+" \ }
+" function! LightlineFilename()
+"     " Get the full path of the current file.
+"     let filepath =  expand('%:p')
+"     let modified = &modified ? ' +' : ''
+"
+"     " If the filename is empty, then display nothing as appropriate.
+"     if empty(filepath)
+"         return '[No Name]' . modified
+"     endif
+"
+"     " Find the correct expansion depending on whether Vim has autochdir.
+"     let mod = (exists('+acd') && &acd) ? ':~' : ':~:.'
+"
+"     " Apply the above expansion to the expanded file path and split by the separator.
+"     let shortened_filepath = fnamemodify(filepath, mod)
+"     if len(shortened_filepath) < 45
+"         return shortened_filepath.modified
+"     endif
+"
+"     " Ensure that we have the correct slash for the OS.
+"     let dirsep = has('win32') && ! &shellslash ? '\\' : '/'
+"
+"     " Check if the filepath was shortened above.
+"     let was_shortened = filepath != shortened_filepath
+"
+"     " Split the filepath.
+"     let filepath_parts = split(shortened_filepath, dirsep)
+"
+"     " Take the first character from each part of the path (except the tidle and filename).
+"     let initial_position = was_shortened ? 0 : 1
+"     let excluded_parts = filepath_parts[initial_position:-2]
+"     let shortened_paths = map(excluded_parts, 'v:val[0]')
+"
+"     " Recombine the shortened paths with the tilde and filename.
+"     let combined_parts = shortened_paths + [filepath_parts[-1]]
+"     let combined_parts = (was_shortened ? [] : [filepath_parts[0]]) + combined_parts
+"
+"     " Recombine into a single string.
+"     let finalpath = join(combined_parts, dirsep)
+"     return finalpath . modified
+" endfunction
+" function! LightlineFileformat()
+"     return winwidth(0) > 70 ? &fileformat : ''
+" endfunction
+" function! LightlineFiletype()
+"     return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
+" endfunction
+" function! LightlineReadonly()
+"     return &readonly && &filetype !=# 'help' ? 'RO' : ''
+" endfunction
+"
+
 
 " Solarized stuff
 set background=dark
@@ -102,14 +261,14 @@ nmap <C-n> <Plug>(ale_next_wrap)
 let delimitMate_expand_cr = 1
 
 " Minibufexplorer
-map <leader>b :MBEToggle<CR>
+" map <leader>b :MBEToggle<CR>
 
 " Ack
 function MyAck(args)
     " Run Ack from git root rather than subdirectory
     let l:gitdir = system("git rev-parse --show-toplevel 2>/dev/null")
     let l:ackargs = empty(a:args) ? expand("<cword>") : a:args . join(a:000, ' ')
-    if !empty(l:gitdir) 
+    if !empty(l:gitdir)
         let l:ackargs = l:ackargs . ' ' . l:gitdir
     endif
     execute 'Ack! ' . l:ackargs
@@ -119,4 +278,36 @@ nmap <leader>a <Esc>:MyAck
 let g:ackprg = 'ag --vimgrep --smart-case'
 
 " FZF
-nmap <leader>f :GFiles<CR>
+nmap <leader>f :execute system('git rev-parse --is-inside-work-tree') =~ 'true' ? 'GFiles' : 'Files'<CR>
+map <leader>b :Buffers<CR>
+map <leader>o :History<CR>
+map <leader>h :History:<CR>
+map <leader>z/ :History/<CR>
+map <leader>zg :GFiles?<CR>
+map <leader>za :Ag 
+map <leader>zh :BCommits<CR>
+map <leader>zc :Commands<CR>
+map <leader>zm :Maps<CR>
+map <leader>zk :Marks<CR>
+map <leader>zs :Snippets<CR>
+" Mapping selecting mappings
+nmap <leader><tab> <plug>(fzf-maps-n)
+xmap <leader><tab> <plug>(fzf-maps-x)
+omap <leader><tab> <plug>(fzf-maps-o)
+" Insert mode
+imap <c-x><c-f> <plug>(fzf-complete-path)
+imap <c-x><c-j> <plug>(fzf-complete-file-ag)
+imap <c-x><c-l> <plug>(fzf-complete-line)
+
+
+" Signify
+let g:signify_vcs_list = [ 'git' ]
+
+" YouCompleteMe
+" Do not confirm usage of .ycm_extra_conf.py
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_python_binary_path = 'python'
+nmap <leader>j :YcmCompleter GoTo<CR>
+nmap <leader>gr :YcmCompleter GoToReferences<CR>
+nmap <leader>d :YcmCompleter GetDoc<CR>
+
