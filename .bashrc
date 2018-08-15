@@ -11,7 +11,13 @@ export PATH="${HOME}/.local/share/npm/bin:${PATH}"
 HISTFILESIZE=30000
 
 # For screen?
-stty -ixon
+if [[ $- =~ i ]]; then
+    stty -ixon
+    # For some reason, tmux does not respect .inputrc for these bindings, but
+    # this works
+    bind '"\e[A"':history-search-backward
+    bind '"\e[B"':history-search-forward
+fi
 
 # Why did I need this?
 # XDG_DATA_DIR=$XDG_DATA_DIR:$HOME/.local/share
@@ -108,12 +114,14 @@ gr() {
     --preview 'git log --oneline --graph --date=short --pretty="format:%C(auto)%cd %h%d %s" {1} | head -200' |
   cut -d$'\t' -f1
 }
-bind '"\er": redraw-current-line'
-bind '"\C-g\C-f": "$(gf)\e\C-e\er"'
-bind '"\C-g\C-b": "$(gb)\e\C-e\er"'
-bind '"\C-g\C-t": "$(gt)\e\C-e\er"'
-bind '"\C-g\C-h": "$(gh)\e\C-e\er"'
-bind '"\C-g\C-r": "$(gr)\e\C-e\er"'
+if [[ $- =~ i ]]; then
+    bind '"\er": redraw-current-line'
+    bind '"\C-g\C-f": "$(gf)\e\C-e\er"'
+    bind '"\C-g\C-b": "$(gb)\e\C-e\er"'
+    bind '"\C-g\C-t": "$(gt)\e\C-e\er"'
+    bind '"\C-g\C-h": "$(gh)\e\C-e\er"'
+    bind '"\C-g\C-r": "$(gr)\e\C-e\er"'
+fi
 # git
 alias gdiff='git difftool -t vimdiff'
 # git-annex
