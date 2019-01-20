@@ -26,6 +26,7 @@ endfunction
 call plug#begin()
 Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
+Plug 'stephpy/vim-yaml'
 Plug 'Raimondi/delimitMate'
 Plug 'junegunn/fzf.vim'
 Plug 'tomtom/tcomment_vim'
