@@ -72,7 +72,7 @@
             (define-key org-mode-map "\C-\M-j" 'org-meta-return)
             (define-key org-mode-map "\C-j" 'org-insert-heading-respect-content)))))
 (defun nolinum ()
-  (global-linum-mode 0)
+  (linum-mode 0)
 )
 (add-hook 'org-mode-hook 'nolinum)
 

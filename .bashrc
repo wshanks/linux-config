@@ -57,7 +57,7 @@ source /etc/profile.d/autojump.sh
 # conda
 [ -f ~/conda/etc/profile.d/conda.sh ] && source ~/conda/etc/profile.d/conda.sh
 # emacs
-alias emacs-server='[ -z $(pgrep -ax -u $UID emacs) ] && emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el'
+alias emacs-server='[[ -z $(pgrep -ax -u $UID emacs) ]] && emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el'
 alias emacsc='emacsclient -nw'
 # fzf
 if [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
