@@ -38,9 +38,9 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 " Plug 'itchyny/lightline.vim'
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
-Plug 'davidhalter/jedi-vim'
-Plug 'ervandew/supertab'
+Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+" Plug 'davidhalter/jedi-vim'
+" Plug 'ervandew/supertab'
 call plug#end()
 
 filetype plugin indent on
@@ -308,22 +308,22 @@ let g:signify_vcs_list = [ 'git' ]
 
 " YouCompleteMe
 " Do not confirm usage of .ycm_extra_conf.py
-" let g:ycm_confirm_extra_conf = 0
-" let g:ycm_python_binary_path = 'python'
-" nmap <leader>j :YcmCompleter GoTo<CR>
-" nmap <leader>gr :YcmCompleter GoToReferences<CR>
-" nmap <leader>d :YcmCompleter GetDoc<CR>
+let g:ycm_confirm_extra_conf = 0
+let g:ycm_python_binary_path = 'python'
+nmap <leader>j :YcmCompleter GoTo<CR>
+nmap <leader>gr :YcmCompleter GoToReferences<CR>
+nmap <leader>d :YcmCompleter GetDoc<CR>
 
 " Jedi
 " let g:SuperTabDefaultCompletionType = "context"
 " let g:jedi#goto_command = "<leader>d"
 " let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>j"
+" let g:jedi#goto_definitions_command = "<leader>j"
 " let g:jedi#documentation_command = "K"
 " let g:jedi#usages_command = "<leader>n"
 " let g:jedi#completions_command = "<C-Space>"
 " let g:jedi#rename_command = "<leader>r"
 " let g:jedi#completions_enabled = 1
-let g:SuperTabContextDefaultCompletionType = "<c-n>"
-let g:SuperTabDefaultCompletionType = "<c-n>"
+" let g:SuperTabContextDefaultCompletionType = "<c-n>"
+" let g:SuperTabDefaultCompletionType = "<c-n>"
 
