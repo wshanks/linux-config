@@ -6,3 +6,6 @@
 	default = simple
 [magit]
 	hideCampaign = true
+[user]
+	name = Will
+	email = wshaos@posteo.net

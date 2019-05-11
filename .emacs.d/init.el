@@ -401,11 +401,18 @@
 (use-package wc-mode)
 
 ;; Theming
-(use-package color-theme
-  :config
-  (use-package color-theme-solarized
-    :config
-    (load-theme 'solarized t)))
+(unless (file-exists-p (expand-file-name "themes/emacs-color-theme-solarized" user-emacs-directory))
+  (unless (file-exists-p (expand-file-name "themes" user-emacs-directory))
+    (make-directory (expand-file-name "themes" user-emacs-directory)))
+  (setq default-directory user-emacs-directory)
+  (call-process
+   "git"
+   nil nil nil
+   "clone"
+   "https://github.com/sellout/emacs-color-theme-solarized"
+   (expand-file-name "themes/emacs-color-theme-solarized" user-emacs-directory)))
+(add-to-list 'custom-theme-load-path (expand-file-name "themes/emacs-color-theme-solarized" user-emacs-directory))
+(load-theme 'solarized t)
 
 (use-package frame-fns
   :config
