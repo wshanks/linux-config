@@ -15,8 +15,7 @@ if [[ $- =~ i ]]; then
     stty -ixon
     # For some reason, tmux does not respect .inputrc for these bindings, but
     # this works
-    bind '"\e[A"':history-search-backward
-    bind '"\e[B"':history-search-forward
+    bind -f $HOME/.inputrc
 fi
 
 # Why did I need this?
