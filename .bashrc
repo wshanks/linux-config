@@ -13,9 +13,6 @@ HISTFILESIZE=30000
 # For screen?
 if [[ $- =~ i ]]; then
     stty -ixon
-    # For some reason, tmux does not respect .inputrc for these bindings, but
-    # this works
-    bind -f $HOME/.inputrc
 fi
 
 # Why did I need this?
