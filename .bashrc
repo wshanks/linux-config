@@ -6,6 +6,7 @@ if [ -f /etc/bashrc ]; then
 fi
 
 export PATH="${HOME}/.local/share/npm/bin:${PATH}"
+export PATH="${HOME}/.local/bin:${PATH}"
 
 # User specific aliases and functions
 HISTFILESIZE=30000
