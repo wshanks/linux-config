@@ -84,6 +84,10 @@ inoremap <c-s> <c-o>:update<CR>
 noremap <c-s> :update<CR>
 map Q :wqa<CR>
 
+" File types
+" .jsm files as .js files
+au BufRead,BufNewFile *.jsm setfiletype javascript
+
 " Helper functions
 " Strip trailing whitespace on saving a file.
 function! StripTrailingWhitespaces()
@@ -258,7 +262,12 @@ set t_Co=16
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
 let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\}
 nmap <C-n> <Plug>(ale_next_wrap)
+nmap <leader>l <Plug>(ale_fix)
 
 " delimitMate
 let delimitMate_expand_cr = 1
