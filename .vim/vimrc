@@ -33,10 +33,8 @@ Plug 'tomtom/tcomment_vim'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
-" Plug 'fholgado/minibufexpl.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" Plug 'itchyny/lightline.vim'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
 " Plug 'davidhalter/jedi-vim'
@@ -185,73 +183,6 @@ let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 let g:airline_section_z = '%3l/%L:%3v'
-" let g:lightline = {
-" \     'colorscheme': 'solarized',
-" \     'active': {
-" \       'left': [
-" \           [ 'mode' ],
-" \           [ 'paste', 'gitbranch', 'readonly', 'filename' ]
-" \       ]
-" \     },
-" \     'component_function': {
-" \       'gitbranch': 'fugitive#head',
-" \       'readonly': 'LightlineReadonly',
-" \       'fileformat': 'LightlineFileformat',
-" \       'filetype': 'LightlineFiletype',
-" \       'filename': 'LightlineFilename'
-" \     }
-" \ }
-" function! LightlineFilename()
-"     " Get the full path of the current file.
-"     let filepath =  expand('%:p')
-"     let modified = &modified ? ' +' : ''
-"
-"     " If the filename is empty, then display nothing as appropriate.
-"     if empty(filepath)
-"         return '[No Name]' . modified
-"     endif
-"
-"     " Find the correct expansion depending on whether Vim has autochdir.
-"     let mod = (exists('+acd') && &acd) ? ':~' : ':~:.'
-"
-"     " Apply the above expansion to the expanded file path and split by the separator.
-"     let shortened_filepath = fnamemodify(filepath, mod)
-"     if len(shortened_filepath) < 45
-"         return shortened_filepath.modified
-"     endif
-"
-"     " Ensure that we have the correct slash for the OS.
-"     let dirsep = has('win32') && ! &shellslash ? '\\' : '/'
-"
-"     " Check if the filepath was shortened above.
-"     let was_shortened = filepath != shortened_filepath
-"
-"     " Split the filepath.
-"     let filepath_parts = split(shortened_filepath, dirsep)
-"
-"     " Take the first character from each part of the path (except the tidle and filename).
-"     let initial_position = was_shortened ? 0 : 1
-"     let excluded_parts = filepath_parts[initial_position:-2]
-"     let shortened_paths = map(excluded_parts, 'v:val[0]')
-"
-"     " Recombine the shortened paths with the tilde and filename.
-"     let combined_parts = shortened_paths + [filepath_parts[-1]]
-"     let combined_parts = (was_shortened ? [] : [filepath_parts[0]]) + combined_parts
-"
-"     " Recombine into a single string.
-"     let finalpath = join(combined_parts, dirsep)
-"     return finalpath . modified
-" endfunction
-" function! LightlineFileformat()
-"     return winwidth(0) > 70 ? &fileformat : ''
-" endfunction
-" function! LightlineFiletype()
-"     return winwidth(0) > 70 ? (&filetype !=# '' ? &filetype : 'no ft') : ''
-" endfunction
-" function! LightlineReadonly()
-"     return &readonly && &filetype !=# 'help' ? 'RO' : ''
-" endfunction
-"
 
 
 " Solarized stuff
@@ -271,9 +202,6 @@ nmap <leader>l <Plug>(ale_fix)
 
 " delimitMate
 let delimitMate_expand_cr = 1
-
-" Minibufexplorer
-" map <leader>b :MBEToggle<CR>
 
 " Ack
 function MyAck(args)
