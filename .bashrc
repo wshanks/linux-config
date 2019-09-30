@@ -5,6 +5,7 @@ if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
+export PATH="${HOME}/bin:${PATH}"
 export PATH="${HOME}/.local/share/npm/bin:${PATH}"
 export PATH="${HOME}/.local/bin:${PATH}"
 
@@ -14,9 +15,6 @@ HISTFILESIZE=30000
 # For screen?
 if [[ $- =~ i ]]; then
     stty -ixon
-    # For some reason, tmux does not respect .inputrc for these bindings, but
-    # this works
-    bind -f $HOME/.inputrc
 fi
 
 # Why did I need this?
