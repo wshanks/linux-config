@@ -39,9 +39,6 @@
 (setq uniquify-buffer-name-style 'forward)
 
 
-;; Files
-(ffap-bindings)
-
 ;; Buffers
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -173,8 +170,15 @@
 			    "l" 'org-forward-element))))
 
 (use-package evil
+  :init
+  (setq evil-want-C-u-scroll t)
+  :bind (:map evil-normal-state-map
+              ("zz" . suspend-frame)
+              ("C-j" . evil-window-down)
+              ("C-k" . evil-window-up)
+              ("C-h" . evil-window-left)
+              ("C-l" . evil-window-right))
   :config
-  (define-key evil-normal-state-map "zz" 'suspend-frame)
   (evil-mode 1)
   (evil-set-initial-state 'term-mode 'emacs)  ;; Needed for fzf
   (add-hook 'term-mode-hook 'evil-emacs-state)
