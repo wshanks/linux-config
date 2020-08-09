@@ -28,6 +28,7 @@ Plug 'mileszs/ack.vim'
 Plug 'w0rp/ale'
 Plug 'stephpy/vim-yaml'
 Plug 'Raimondi/delimitMate'
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'altercation/vim-colors-solarized'
@@ -37,6 +38,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'majutsushi/tagbar'
 " Plug 'davidhalter/jedi-vim'
 " Plug 'ervandew/supertab'
 call plug#end()
@@ -261,3 +263,6 @@ function! GetDocCaller()
     call cursor(line_orig, col_orig)
 endfun
 inoremap <c-d> <c-o>:call GetDocCaller()<CR>
+
+" Tagbar
+nmap <leader>t :TagbarToggle<CR>
