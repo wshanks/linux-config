@@ -83,6 +83,7 @@ imap kj <Esc>
 inoremap <c-s> <c-o>:update<CR>
 noremap <c-s> :update<CR>
 map Q :wqa<CR>
+nnoremap <c-c> :pclose<CR>:lclose<CR>:cclose<CR>:helpclose<CR>
 
 " File types
 " .jsm files as .js files
@@ -244,11 +245,12 @@ let g:signify_vcs_list = [ 'git' ]
 let g:ycm_confirm_extra_conf = 0
 let g:ycm_python_binary_path = 'python'
 let g:ycm_auto_hover = ''
+let g:ycm_autoclose_preview_window_after_insertion = 1
 nmap <leader>j :YcmCompleter GoTo<CR>
 nmap <leader>gr :YcmCompleter GoToReferences<CR>
 nmap <leader>k :YcmCompleter GetDoc<CR>
 nmap <leader>d <plug>(YCMHover)
-function! GetDocCaller()
+function! GetHoverCaller()
     " Toggle YCMHover for calling function of current cursor position
     let line_orig = line(".")
     let col_orig = col(".")
@@ -256,7 +258,17 @@ function! GetDocCaller()
     execute "normal \<plug>(YCMHover)"
     call cursor(line_orig, col_orig)
 endfun
-inoremap <c-d> <c-o>:call GetDocCaller()<CR>
+function! GetDocCaller()
+    " Toggle YCMHover for calling function of current cursor position
+    let line_orig = line(".")
+    let col_orig = col(".")
+    let [ls, cs] = searchpos(".\(", "b")
+    execute "YcmCompleter GetDoc"
+    call cursor(line_orig, col_orig)
+endfun
+
+inoremap <c-d> <c-o>:call GetHoverCaller()<CR>
+inoremap <c-k> <c-o>:call GetDocCaller()<CR>
 
 " Tagbar
 nmap <leader>t :TagbarToggle<CR>
