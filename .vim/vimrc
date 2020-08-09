@@ -171,12 +171,6 @@ function! _EchoSwapMessage(message)
 endfunction
 
 
-" set statusline=
-" set statusline +=%4*\ %<%F%*            "full path
-" set statusline +=%2*%m%*                "modified flag
-" set statusline +=%1*%=%5l%*             "current line
-" set statusline +=%2*/%L%*               "total lines
-" set statusline +=%1*%4v\ %*             "virtual column number
 set noshowmode
 let g:airline_theme='solarized'
 let g:airline_extensions = ['quickfix',
