@@ -59,6 +59,7 @@ let mapleader="\\"
 map <Space> <Leader>
 au BufRead,BufNewFile *.md set filetype=markdown
 set backspace=indent,eol,start
+set shell=/bin/bash
 "
 set hlsearch
 set incsearch

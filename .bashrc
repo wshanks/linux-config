@@ -1,13 +1,10 @@
 # .bashrc
-
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-export PATH="${HOME}/bin:${PATH}"
-export PATH="${HOME}/.local/share/npm/bin:${PATH}"
-export PATH="${HOME}/.local/bin:${PATH}"
+source $HOME/.env
 
 # User specific aliases and functions
 HISTFILESIZE=30000
@@ -16,9 +13,6 @@ HISTFILESIZE=30000
 if [[ $- =~ i ]]; then
     stty -ixon
 fi
-
-# Why did I need this?
-# XDG_DATA_DIR=$XDG_DATA_DIR:$HOME/.local/share
 
 # git bash prompt
 GIT_PS1_SHOWDIRTYSTATE=1
@@ -54,16 +48,12 @@ PROMPT_COMMAND='__my_git_ps1'
 source /etc/profile.d/autojump.sh
 # conda
 [ -f ~/conda/etc/profile.d/conda.sh ] && source ~/conda/etc/profile.d/conda.sh
-# emacs
-alias emacs-server='[[ -z $(pgrep -ax -u $UID emacs) ]] && emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el'
-alias emacsc='emacsclient -nw'
 # fzf
 if [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
     source /usr/share/fzf/shell/key-bindings.bash
 elif [ -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
 fi
-export FZF_DEFAULT_COMMAND='ag -l -g ""'
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
 }
@@ -120,21 +110,11 @@ if [[ $- =~ i ]]; then
     bind '"\C-g\C-h": "$(gh)\e\C-e\er"'
     bind '"\C-g\C-r": "$(gr)\e\C-e\er"'
 fi
-# git
-alias gdiff='git difftool -t vimdiff'
-# git-annex
-alias ga='git-annex'
-complete -o bashdefault -o default -o filenames -F _git-annex ga
 # readline
 export INPUTRC="$HOME"/.config/readline/inputrc
 # yadm
 [ -f /usr/share/doc/yadm/yadm.bash_completion ] && source /usr/share/doc/yadm/yadm.bash_completion
-alias pyadm='yadm --yadm-dir "$HOME/.pyadm"'
 if [ -z ${_yadm+x} ]; then
     complete -o bashdefault -o default -F _yadm pyadm 2>/dev/null \
         || complete -o default -F _yadm pyadm
-fi
-
-if [ -f "$HOME/.bashrc_local" ]; then
-    . "$HOME/.bashrc_local"
 fi
