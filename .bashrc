@@ -1,10 +1,67 @@
 # .bashrc
+
 # Source global definitions
 if [ -f /etc/bashrc ]; then
     . /etc/bashrc
 fi
 
-source $HOME/.env
+# Usage: pathdrop PATTERN PATH_VARIABLE
+#
+# Drop any path in PATH_VARIABLE that matches the regular expression in
+# PATTERN.
+#
+# PATTERN: a regular expression to match to the elements of a path variable
+# PATH_VARIABLE: the name of the environment variable containing a path (i.e.
+#                it is a string of `:` delimited paths, like PATH).
+function pathdrop {
+    # Input arguments
+    local PATTERN=$1
+    local PATH_VARIABLE=$2
+
+    # Expand path variable into an array
+    local path_array
+    IFS=: read -ra path_array <<<"${!PATH_VARIABLE}"
+
+    # Loop over array and remove any item matching pattern
+    local item
+    for item in ${!path_array[*]}; do
+        if [[ "${path_array[$item]}" =~ $PATTERN ]]; then
+            unset -v 'path_array['$item']'
+        elif [ -z "${path_array[$item]}" ]; then
+            unset -v 'path_array['$item']'
+        fi
+    done
+
+    # Join modified array with `:` and re-export the path variable
+    export $PATH_VARIABLE=$(IFS=: ; echo "${path_array[*]}")
+}
+
+# Usage: pathadd NEW_ITEM PATH_VARIABLE
+#
+# Add new item to the path environment variable. First the item is removed from
+# the path if it is already present and then it is prepended to the path, so
+# this operation is idempotent.
+#
+# NEW_ITEM: item to prepend to the path variable
+# PATH_VARIABLE: name of the path environment variable to modify. This variable
+#                should be a `:` delimited string of paths (e.g. the PATH
+#                variable).
+function pathadd {
+    local NEW_ITEM=$1
+    local PATH_VARIABLE=$2
+
+    pathdrop ^"$NEW_ITEM"$ $PATH_VARIABLE
+    if [ -z "${!PATH_VARIABLE}" ]; then
+        export $PATH_VARIABLE="$NEW_ITEM"
+    else
+        export $PATH_VARIABLE="$NEW_ITEM:${!PATH_VARIABLE}"
+    fi
+}
+
+pathadd "${HOME}/bin" PATH
+pathadd "${HOME}/.local/share/npm/bin" PATH
+pathadd "${HOME}/.local/bin" PATH
+
 
 # User specific aliases and functions
 HISTFILESIZE=30000
@@ -48,12 +105,16 @@ PROMPT_COMMAND='__my_git_ps1'
 source /etc/profile.d/autojump.sh
 # conda
 [ -f ~/conda/etc/profile.d/conda.sh ] && source ~/conda/etc/profile.d/conda.sh
+# emacs
+alias emacs-server='[[ -z $(pgrep -ax -u $UID emacs) ]] && emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el'
+alias emacsc='emacsclient -nw'
 # fzf
 if [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
     source /usr/share/fzf/shell/key-bindings.bash
 elif [ -f ~/.fzf.bash ]; then
     source ~/.fzf.bash
 fi
+export FZF_DEFAULT_COMMAND='ag -l -g ""'
 is_in_git_repo() {
   git rev-parse HEAD > /dev/null 2>&1
 }
@@ -110,11 +171,18 @@ if [[ $- =~ i ]]; then
     bind '"\C-g\C-h": "$(gh)\e\C-e\er"'
     bind '"\C-g\C-r": "$(gr)\e\C-e\er"'
 fi
+# git
+alias gdiff='git difftool -t vimdiff'
 # readline
 export INPUTRC="$HOME"/.config/readline/inputrc
 # yadm
 [ -f /usr/share/doc/yadm/yadm.bash_completion ] && source /usr/share/doc/yadm/yadm.bash_completion
+alias pyadm='yadm --yadm-dir "$HOME/.pyadm"'
 if [ -z ${_yadm+x} ]; then
     complete -o bashdefault -o default -F _yadm pyadm 2>/dev/null \
         || complete -o default -F _yadm pyadm
+fi
+
+if [ -f "$HOME/.bashrc_local" ]; then
+    . "$HOME/.bashrc_local"
 fi

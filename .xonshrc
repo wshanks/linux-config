@@ -10,8 +10,35 @@ $PROMPT = '{env_name}{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {cwd_base}{branch_
 $XONSH_COLOR_STYLE = 'solarized-dark'
 xontrib load autojump
 # XONSH WEBCONFIG END
-#
-aliases["ll"] = ["ls", "-l"]
+
+$UID = $(id -u).strip()
+$PATH = (
+    [
+        p
+        for p in [$HOME + "/bin", $HOME + "/.local/share/npm/bin", $HOME + "/.local/bin"]
+        if p not in $PATH
+    ] +
+    $PATH
+)
+
+aliases["ll"] = "ls -l"
+aliases["emacsc"] = "emacsclient -nw"
+aliases["gdiff"] = "git difftool -t vimdiff"
+aliases["pyadm"] = "yadm --yadm-dir $HOME/.pyadm"
+
+def _emacs_server(args):
+    if "-k" in args:
+        print("Stopping emacs server")
+        emacsclient -e "(kill-emacs)"
+        return
+    emacs_running = $(pgrep -ax -u $UID emacs)
+    if emacs_running:
+        print("emacs already running, not starting server")
+    else:
+       emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el 
+aliases["emacs-server"] = _emacs_server
+
+$FZF_DEFAULT_COMMAND = 'ag -l -g ""'
 
 # Set up conda (and xonsh somewhat since it is in the conda environment)
 import sys as _sys
@@ -24,10 +51,15 @@ __xonsh__.execer.exec(
 )
 _sys.modules["xontrib.conda"] = _mod
 del _sys, _mod, _ModuleType
+
+if p"$HOME/.xonshrc_local".exists():
+    source "$HOME/.xonshrc_local"
+
 # This is here because xonsh is installed in the base conda environment,
 # because the conda xontrib needs to be able to "import conda" and xonsh won't
 # be on the path before the xontrib sets up conda.
 # tmux needs SHELL to be set to automatically launch new shells as that type.
+#
+# Also, this must be after any call to source-bash because that sucks in
+# SHELL=/bin/bash
 $SHELL = $(which xonsh)
-
-source-bash "$HOME/.env"
