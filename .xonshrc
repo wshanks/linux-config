@@ -26,6 +26,7 @@ aliases["ll"] = "ls -l"
 aliases["emacsc"] = "emacsclient -nw"
 aliases["gdiff"] = "git difftool -t vimdiff"
 aliases["pyadm"] = "yadm --yadm-dir $HOME/.pyadm"
+aliases["source-bash"] = ["source-foreign", "bash", "--sourcer=source", "--extra-args=--norc"]
 
 def _emacs_server(args):
     if "-k" in args:
