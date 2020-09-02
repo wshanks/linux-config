@@ -104,7 +104,14 @@ PROMPT_COMMAND='__my_git_ps1'
 # autojump
 source /etc/profile.d/autojump.sh
 # conda
-[ -f ~/conda/etc/profile.d/conda.sh ] && source ~/conda/etc/profile.d/conda.sh
+__conda_setup="$("$HOME/conda/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    >&2 echo "Problem initializing conda"
+fi
+unset __conda_setup
+
 # emacs
 alias emacs-server='[[ -z $(pgrep -ax -u $UID emacs) ]] && emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el'
 alias emacsc='emacsclient -nw'
