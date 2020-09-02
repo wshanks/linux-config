@@ -57,11 +57,8 @@ del _sys, _mod, _ModuleType
 if p"$HOME/.xonshrc_local".exists():
     source "$HOME/.xonshrc_local"
 
-# This is here because xonsh is installed in the base conda environment,
-# because the conda xontrib needs to be able to "import conda" and xonsh won't
-# be on the path before the xontrib sets up conda.
-# tmux needs SHELL to be set to automatically launch new shells as that type.
-#
-# Also, this must be after any call to source-bash because that sucks in
-# SHELL=/bin/bash
-$SHELL = $(which xonsh)
+import sys as _sys
+_xonsh_arg = [a for a in _sys.argv if "xonsh" in a]
+if _xonsh_arg:
+    $SHELL = _xonsh_arg[0]
+del _sys, _xonsh_arg
