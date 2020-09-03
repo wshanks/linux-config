@@ -55,7 +55,12 @@ def _emacs_server(args):
        emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el 
 aliases["emacs-server"] = _emacs_server
 
-$FZF_DEFAULT_COMMAND = 'ag -l -g ""'
+xontrib load fzf-widgets
+$FZF_DEFAULT_COMMAND = 'ag --nocolor -l -g ""'
+$fzf_history_binding = "c-r"
+$fzf_ssh_binding = None
+$fzf_file_binding = "c-t"
+$fzf_dir_binding = None
 
 # Set up conda (and xonsh somewhat since it is in the conda environment)
 import sys as _sys
