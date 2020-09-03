@@ -26,7 +26,20 @@ aliases["ll"] = "ls -l"
 aliases["emacsc"] = "emacsclient -nw"
 aliases["gdiff"] = "git difftool -t vimdiff"
 aliases["pyadm"] = "yadm --yadm-dir $HOME/.pyadm"
-aliases["source-bash"] = ["source-foreign", "bash", "--sourcer=source", "--extra-args=--norc"]
+def _source_bash(args, stdin, stdout, stderr):
+    shlvl = $SHLVL
+    aliases["source-foreign"](
+        [
+            "bash",
+            "--sourcer=source",
+            "--extra-args=--norc",
+        ] + args,
+        stdin,
+        stdout,
+        stderr,
+    )
+    $SHLVL = shlvl
+aliases["source-bash"] = _source_bash
 
 def _emacs_server(args):
     if "-k" in args:
