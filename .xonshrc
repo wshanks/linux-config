@@ -40,6 +40,8 @@ def _source_bash(args, stdin, stdout, stderr):
     )
     $SHLVL = shlvl
 aliases["source-bash"] = _source_bash
+# See https://askubuntu.com/questions/1215100/kde-konsole-shortcut-to-launch-new-tab-with-different-profile
+aliases["ktab"] = "qdbus $KONSOLE_DBUS_SERVICE $KONSOLE_DBUS_WINDOW newSession"
 
 def _emacs_server(args):
     if "-k" in args:
