@@ -12,6 +12,8 @@ $XONSH_COLOR_STYLE = 'solarized-dark'
 xontrib load autojump
 # XONSH WEBCONFIG END
 
+$CASE_SENSITIVE_COMPLETIONS = 0
+
 $UID = $(id -u).strip()
 $PATH = (
     [
