@@ -115,6 +115,7 @@ unset __conda_setup
 # emacs
 alias emacs-server='[[ -z $(pgrep -ax -u $UID emacs) ]] && emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el'
 alias emacsc='emacsclient -nw'
+alias ktab="qdbus $KONSOLE_DBUS_SERVICE $KONSOLE_DBUS_WINDOW newSession"
 # fzf
 if [ -f /usr/share/fzf/shell/key-bindings.bash ]; then
     source /usr/share/fzf/shell/key-bindings.bash
