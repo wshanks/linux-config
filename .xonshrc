@@ -64,6 +64,10 @@ $fzf_ssh_binding = None
 $fzf_file_binding = "c-t"
 $fzf_dir_binding = None
 
+# gpg
+$GPG_TTY = $(tty)
+
+# TODO: work when xonsh is not in conda base environment?
 # Set up conda (and xonsh somewhat since it is in the conda environment)
 import sys as _sys
 from types import ModuleType as _ModuleType

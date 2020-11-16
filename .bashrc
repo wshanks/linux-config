@@ -190,6 +190,8 @@ if [ -z ${_yadm+x} ]; then
     complete -o bashdefault -o default -F _yadm pyadm 2>/dev/null \
         || complete -o default -F _yadm pyadm
 fi
+# gpg
+export GPG_TTY=$(tty)
 
 if [ -f "$HOME/.bashrc_local" ]; then
     . "$HOME/.bashrc_local"
