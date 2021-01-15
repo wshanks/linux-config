@@ -30,11 +30,13 @@ aliases["gdiff"] = "git difftool -t vimdiff"
 aliases["pyadm"] = "yadm --yadm-dir $HOME/.config/pyadm --yadm-data $HOME/.local/share/pyadm"
 def _source_bash(args, stdin, stdout, stderr):
     shlvl = $SHLVL
+    from pathlib import Path
+    bashrc = str(Path.home() / ".bashrc_xonsh")
     aliases["source-foreign"](
         [
             "bash",
             "--sourcer=source",
-            "--extra-args=--norc",
+            f"--extra-args=--rcfile={bashrc}",
         ] + args,
         stdin,
         stdout,
