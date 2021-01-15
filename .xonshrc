@@ -7,7 +7,7 @@ $XONSH_TRACEBACK_LOGFILE = $HOME + "/tmp/xonsh.log"
 
 # XONSH WEBCONFIG START
 $XONSH_GITSTATUS_STASHED = ""
-$PROMPT = '{env_name}{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {cwd_base}{branch_color}{gitstatus: {}}{NO_COLOR} {BOLD_BLUE}{prompt_end}{NO_COLOR} '
+$PROMPT = '{env_name}{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {cwd_base}{branch_color}{gitstatus: {}}{RESET} {BOLD_BLUE}{prompt_end}{RESET} '
 $XONSH_COLOR_STYLE = 'solarized-dark'
 xontrib load autojump
 # XONSH WEBCONFIG END
@@ -27,7 +27,7 @@ $PATH = (
 aliases["ll"] = "ls -l"
 aliases["emacsc"] = "emacsclient -nw"
 aliases["gdiff"] = "git difftool -t vimdiff"
-aliases["pyadm"] = "yadm --yadm-dir $HOME/.pyadm"
+aliases["pyadm"] = "yadm --yadm-dir $HOME/.config/pyadm --yadm-data $HOME/.local/share/pyadm"
 def _source_bash(args, stdin, stdout, stderr):
     shlvl = $SHLVL
     aliases["source-foreign"](
