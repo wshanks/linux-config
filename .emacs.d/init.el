@@ -125,6 +125,10 @@
 ;;     (key-chord-mode 1)
 ;;     (setq key-chord-two-keys-delay 0.4)))
 
+(use-package minimal-session-saver
+  :config
+  (minimal-session-saver-load))
+
 (use-package popwin
   :config
   (popwin-mode t)
