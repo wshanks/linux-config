@@ -5,6 +5,16 @@
 $XONSH_SHOW_TRACEBACK = True
 $XONSH_TRACEBACK_LOGFILE = $HOME + "/tmp/xonsh.log"
 
+
+# xonsh has weird issues handling interactive processes.
+# https://github.com/xonsh/xonsh/issues/4214
+# See https://github.com/xonsh/xonsh/issues/4243
+import builtins as _builtins
+import xonsh as _xonsh
+_builtins.__xonsh__.commands_cache.threadable_predictors['git'] = _xonsh.commands_cache.predict_false
+_builtins.__xonsh__.commands_cache.threadable_predictors['paru'] = _xonsh.commands_cache.predict_false
+del _builtins, _xonsh
+
 # XONSH WEBCONFIG START
 $XONSH_GITSTATUS_STASHED = ""
 $PROMPT = '{env_name}{BOLD_GREEN}{user}@{hostname}{BOLD_BLUE} {cwd_base}{branch_color}{gitstatus: {}}{RESET} {BOLD_BLUE}{prompt_end}{RESET} '
