@@ -5,6 +5,8 @@
 $XONSH_SHOW_TRACEBACK = True
 $XONSH_TRACEBACK_LOGFILE = $HOME + "/tmp/xonsh.log"
 
+$VC_BRANCH_TIMEOUT = 0.4
+
 
 # xonsh has weird issues handling interactive processes.
 # https://github.com/xonsh/xonsh/issues/4214
