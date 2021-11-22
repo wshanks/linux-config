@@ -185,7 +185,7 @@ alias gdiff='git difftool -t vimdiff'
 export INPUTRC="$HOME"/.config/readline/inputrc
 # yadm
 [ -f /usr/share/doc/yadm/yadm.bash_completion ] && source /usr/share/doc/yadm/yadm.bash_completion
-alias pyadm='yadm --yadm-dir "$HOME/.pyadm"'
+alias pyadm='yadm --yadm-dir "$HOME/.config/pyadm" --yadm-data "$HOME/.local/share/pyadm"'
 if [ -z ${_yadm+x} ]; then
     complete -o bashdefault -o default -F _yadm pyadm 2>/dev/null \
         || complete -o default -F _yadm pyadm
