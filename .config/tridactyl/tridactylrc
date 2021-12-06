@@ -1,0 +1,56 @@
+" reset everything
+sanitize tridactyllocal tridactylsync
+
+" settings
+set searchengine duckduckgo
+set theme dark
+
+" binds
+bind j scrollline 1
+bind k scrollline -1
+bind gb tabprev
+" This does not work in tridactyl. Blocks all k's
+" bind --mode=insert kj modenormal
+bind --mode=insert <C-i> composite unfocus ; mode normal
+" Useful for getting out of visual mode quickly because GitHub grabs / in visual mode
+bind --mode=visual i composite unfocus ; mode normal
+
+" make t open the selection with tabopen
+bind --mode=visual t composite js document.getSelection().toString() | fillcmdline tabopen"
+
+" Site specific binds
+
+" Only hint search results on Google and DDG
+bindurl www.google.com f hint -Jc #search div:not(.action-menu) > a
+bindurl www.google.com F hint -Jbc #search div:not(.action-menu) > a
+bindurl ^https://duckduckgo.com f hint -Jc [class~=result__a]
+bindurl ^https://duckduckgo.com F hint -Jbc [class~=result__a]
+
+" Git{Hub,Lab} git clone via SSH yank
+bind yg composite js "git clone " + document.location.href.replace(/https?:\/\//,"git@").replace("/",":").replace(/$/,".git") | clipboard yank
+
+" outlook w/ gmail bindings
+unbindurl ^https://outlook.office.com/mail j
+unbindurl ^https://outlook.office.com/mail k
+unbindurl ^https://outlook.office.com/mail o
+unbindurl ^https://outlook.office.com/mail r
+unbindurl ^https://outlook.office.com/mail a
+unbindurl ^https://outlook.office.com/mail c
+unbindurl ^https://outlook.office.com/mail #
+unbindurl ^https://outlook.office.com/mail F
+unbindurl ^https://outlook.office.com/mail /
+unbindurl ^https://outlook.office.com/mail v
+unbindurl ^https://outlook.office.com/mail x
+unbindurl ^https://outlook.office.com/mail U
+
+" posteo
+seturl https://posteo.de noiframe true
+
+" jupyter
+autocmd DocStart ^http://localhost:8888 mode ignore
+
+" Note
+" To wipe old settings:
+"   sanitize tridactyllocal 
+" To reload these settings:"
+"   source --url <url to this file>
