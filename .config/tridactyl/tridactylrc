@@ -37,11 +37,15 @@ unbindurl ^https://outlook.office.com/mail r
 unbindurl ^https://outlook.office.com/mail a
 unbindurl ^https://outlook.office.com/mail c
 unbindurl ^https://outlook.office.com/mail #
-unbindurl ^https://outlook.office.com/mail F
 unbindurl ^https://outlook.office.com/mail /
 unbindurl ^https://outlook.office.com/mail v
 unbindurl ^https://outlook.office.com/mail x
 unbindurl ^https://outlook.office.com/mail U
+" Remap forward to l, since f is too useful
+bindurl ^https://outlook.office.com/mail l js document.querySelector('[aria-label="Forward"]').click()
+" Allow quick scrolling of the message body
+bindurl ^https://outlook.office.com/mail J composite js document.querySelector('[aria-label="Message body"]').focus() | scrollline 3
+bindurl ^https://outlook.office.com/mail K composite js document.querySelector('[aria-label="Message body"]').focus() | scrollline -3
 
 " posteo
 seturl https://posteo.de noiframe true
