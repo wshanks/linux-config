@@ -184,6 +184,17 @@ if [[ $- =~ i ]]; then
 fi
 # git
 alias gdiff='git difftool -t vimdiff'
+# Add github remote by user name
+function ghremote() {
+    local repo
+    if ! git rev-parse 2>/dev/null; then
+        echo "Not in a git repo"
+        return
+    fi
+    repo="$(basename --suffix .git $(git config --get remote.origin.url))"
+    git remote add "$1" "git@github.com:$1/${repo}.git"
+    git fetch "$1"
+}
 # readline
 export INPUTRC="$HOME"/.config/readline/inputrc
 # yadm
