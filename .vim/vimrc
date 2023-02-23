@@ -1,27 +1,10 @@
 set nocompatible              " be iMproved, required
-if empty(glob('$HOME/.vim/autoload/plug.vim'))
-  silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-
-function! BuildYCM(info)
-  " info is a dictionary with 3 fields
-  " - name:   name of the plugin
-  " - status: 'installed', 'updated', or 'unchanged'
-  " - force:  set on PlugInstall! or PlugUpdate!
-  let cmd = "python3 -c " .
-              \ "'import sys; sys.path.insert(0, \"./third_party/ycmd\"); " .
-              \ "import os; " .
-              \ "stderr = sys.stderr; " .
-              \ "sys.stderr = open(os.devnull, \"w\"); " .
-              \ "import ycmd.server_utils; " .
-              \ "print(ycmd.server_utils.CompatibleWithCurrentCore() in [ycmd.server_utils.CORE_OUTDATED_STATUS, ycmd.server_utils.CORE_MISSING_STATUS])'"
-  if a:info.status == 'installed' || a:info.force ||
-              \(a:info.status == 'updated' && system(cmd)[0:3] == "True")
-    !python3 ./install.py  --ts-completer
-  endif
-endfunction
+" Not using this because I install vim-plug with ansible
+"if empty(glob('$HOME/.vim/autoload/plug.vim'))
+"  silent !curl -fLo $HOME/.vim/autoload/plug.vim --create-dirs
+"    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+"  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+"endif
 
 call plug#begin()
 Plug 'mileszs/ack.vim'
@@ -37,7 +20,7 @@ Plug 'mhinz/vim-signify'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'Valloric/YouCompleteMe', { 'do': function('BuildYCM') }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --ts-completer' }
 Plug 'majutsushi/tagbar'
 " Plug 'davidhalter/jedi-vim'
 " Plug 'ervandew/supertab'
