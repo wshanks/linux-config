@@ -31,7 +31,7 @@ Plug 'Raimondi/delimitMate'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'tomtom/tcomment_vim'
-Plug 'altercation/vim-colors-solarized'
+Plug 'lifepillar/vim-solarized8'
 Plug 'tpope/vim-fugitive'
 Plug 'mhinz/vim-signify'
 Plug 'vim-airline/vim-airline'
@@ -184,9 +184,16 @@ let g:airline_section_z = '%3l/%L:%3v'
 
 
 " Solarized stuff
+" Enable true color
+if exists('+termguicolors')
+    " :h xterm-true-color
+    set termguicolors
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
 set background=dark
-colorscheme solarized
-set t_Co=16
+autocmd vimenter * ++nested colorscheme solarized8_flat
+let g:solarized_statusline = "flat"
 " ALE
 let g:ale_echo_msg_error_str = 'E'
 let g:ale_echo_msg_warning_str = 'W'
