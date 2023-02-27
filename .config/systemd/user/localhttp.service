@@ -1,0 +1,10 @@
+[Unit]
+Description=Local web server for previewing static files
+
+[Service]
+ExecStart=/usr/bin/python -m http.server --bind 127.0.0.1 --directory %h/Downloads/localhttp 8000
+RestartSec=60
+Restart=always
+
+[Install]
+WantedBy=default.target
