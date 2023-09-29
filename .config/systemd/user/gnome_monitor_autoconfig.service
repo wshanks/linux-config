@@ -1,0 +1,10 @@
+[Unit]
+Description=Script to watch for display monitor changes and activate external monitors when detected
+
+[Service]
+ExecStart=%h/bin/gnome_monitor_autoconfig.py
+RestartSec=60
+Restart=always
+
+[Install]
+WantedBy=default.target
