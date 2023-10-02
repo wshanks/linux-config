@@ -80,20 +80,20 @@
 (setq package-enable-at-startup nil)
 (add-to-list
  'package-archives
- '("melpa" . "http://melpa.org/packages/")
+ '("melpa" . "https://melpa.org/packages/")
  t)
 (package-initialize)
 
 ;; Install non-distributed package
 (unless (package-installed-p 'frame-fns)
   (require 'url)
-  (url-copy-file "https://raw.githubusercontent.com/willsALMANJ/frame-fns/master/frame-fns.el" "/tmp/frame-fns.el" t)
+  (url-copy-file "https://raw.githubusercontent.com/wshanks/frame-fns/master/frame-fns.el" "/tmp/frame-fns.el" t)
   (package-install-file "/tmp/frame-fns.el"))
 
 ;; Install non-distributed package
 (unless (package-installed-p 'modeline-posn)
   (require 'url)
-  (url-copy-file "https://raw.githubusercontent.com/willsALMANJ/modeline-posn/master/modeline-posn.el" "/tmp/modeline-posn.el" t)
+  (url-copy-file "https://raw.githubusercontent.com/wshanks/modeline-posn/master/modeline-posn.el" "/tmp/modeline-posn.el" t)
   (package-install-file "/tmp/modeline-posn.el"))
 
 (unless (package-installed-p 'use-package)
