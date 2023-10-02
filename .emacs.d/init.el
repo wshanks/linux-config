@@ -176,6 +176,8 @@
 (use-package evil
   :init
   (setq evil-want-C-u-scroll t)
+  (setq evil-want-keybinding nil)
+  (setq evil-toggle-key "C-`")
   :bind (:map evil-normal-state-map
               ("zz" . suspend-frame)
               ("C-j" . evil-window-down)
@@ -310,8 +312,9 @@
   :config
   (use-package evil
     :config
-    (use-package evil-magit
+    (use-package evil-collection
       :config
+      (evil-collection-magit-setup)
       (use-package general
 	:config
         (general-define-key :states '(normal)
