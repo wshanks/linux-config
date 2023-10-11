@@ -178,6 +178,7 @@
   (setq evil-want-C-u-scroll t)
   (setq evil-want-keybinding nil)
   (setq evil-toggle-key "C-`")
+  (setq evil-undo-system 'undo-redo)
   :bind (:map evil-normal-state-map
               ("zz" . suspend-frame)
               ("C-j" . evil-window-down)
@@ -188,12 +189,6 @@
   (evil-mode 1)
   (evil-set-initial-state 'term-mode 'emacs)  ;; Needed for fzf
   (add-hook 'term-mode-hook 'evil-emacs-state)
-  (setq evil-emacs-state-modes (delq 'ibuffer-mode evil-emacs-state-modes))
-  (evil-define-key 'normal ibuffer-mode-map
-    "0" 'evil-beginning-of-line
-    "f" 'evil-search-forward
-    "n" 'evil-search-next
-    "N" 'evil-search-previous)
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs
   "H" 'package-menu-quick-help
   "/" 'evil-search-forward
@@ -314,6 +309,7 @@
     :config
     (use-package evil-collection
       :config
+      (evil-collection-init 'ibuffer)
       (evil-collection-magit-setup)
       (use-package general
 	:config
