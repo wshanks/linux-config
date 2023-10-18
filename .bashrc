@@ -210,3 +210,6 @@ export GPG_TTY=$(tty)
 if [ -f "$HOME/.bashrc_local" ]; then
     . "$HOME/.bashrc_local"
 fi
+
+# python
+alias pytestdb='pytest --pdb --pdbcls=pudb.debugger:Debugger'
