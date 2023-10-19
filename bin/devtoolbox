@@ -1,0 +1,10 @@
+# This is intended to be run as the --init-file argument to bash as the command
+# for a terminal emulator program
+source $HOME/.bashrc
+
+# Make sure gpg-agent is running on the host. Otherwise, it can be started by a
+# something in the container without permission to unlock the agent.
+# See https://github.com/containers/toolbox/issues/568
+gpg-agent --daemon 2>/dev/null
+
+toolbox run -c dev tmux -L toolbox
