@@ -36,6 +36,9 @@ def ensure_external():
 
 def main():
     """Main logic"""
+    # Do initial monitor set up before listening for changes
+
+    ensure_external()
     match_expr = ",".join(
         [
             "type='signal'",
