@@ -102,7 +102,9 @@ __my_git_ps1 ()
 PROMPT_COMMAND='__my_git_ps1'
 
 # autojump
-source /etc/profile.d/autojump.sh
+if [ -n "${TOOLBOX_PATH}" ]; then
+    source /etc/profile.d/autojump.sh
+fi
 # conda
 __conda_setup="$("$HOME/.conda/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
@@ -213,3 +215,10 @@ fi
 
 # python
 alias pytestdb='pytest --pdb --pdbcls=pudb.debugger:Debugger'
+
+# toolbox
+if [ -n "${TOOLBOX_PATH}" ]; then
+    alias flatpak="flatpak-spawn --host flatpak"
+    alias podman="flatpak-spawn --host podman"
+    alias hostdnf="flatpak-spawn --host sudo dnf"
+fi
