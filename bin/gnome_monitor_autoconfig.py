@@ -2,6 +2,7 @@
 """Script to automatically enable only the external monitor in GNOME"""
 
 import re
+import time
 from subprocess import DEVNULL, PIPE, Popen, run
 
 
@@ -11,9 +12,20 @@ BUILTIN_MONITOR = "eDP-1"
 
 def ensure_external():
     """Ensure external monitor is used when present"""
-    monitor_config = run(
-        ["gnome-monitor-config", "list"], text=True, check=True, capture_output=True
-    ).stdout
+    for _ in range(10):
+        proc = run(
+            ["gnome-monitor-config", "list"], text=True, check=False, capture_output=True
+        )
+        if proc.returncode != 0:
+            print("gnome-monitor-config list failed!")
+            print("stdout:")
+            print(proc.stdout)
+            print("stderr:")
+            print(proc.stderr)
+            time.sleep(2)
+        else:
+            break
+    monitor_config = proc.stdout
     monitors = {
         match_.group("name"): match_.group("state")
         for line in monitor_config.splitlines()
