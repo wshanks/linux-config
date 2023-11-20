@@ -117,6 +117,9 @@ if [ -f "$HOME/.conda/etc/profile.d/mamba.sh" ]; then
     . "$HOME/.conda/etc/profile.d/mamba.sh"
 fi
 
+# docker (rootless)
+export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock
+
 # emacs
 alias emacs-server='[[ -z $(pgrep -ax -u $UID emacs) ]] && emacs --chdir $HOME --daemon -l $HOME/.emacs.d/desktop_save.el'
 alias emacsc='emacsclient -nw'
