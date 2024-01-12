@@ -1,0 +1,9 @@
+[Unit]
+Description=Send Systemd Notifications to desktop
+
+[Service]
+Type=oneshot
+ExecStart=notify-send --app=systemd --urgency=critical "Service failure" "Service %i failed!"
+
+[Install]
+WantedBy=multi-user.target
