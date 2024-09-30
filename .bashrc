@@ -65,6 +65,7 @@ pathadd "${HOME}/.local/bin" PATH
 
 # User specific aliases and functions
 HISTFILESIZE=30000
+HISTCONTROL=ignoreboth
 
 # For screen?
 if [[ $- =~ i ]]; then
