@@ -7,4 +7,4 @@ source $HOME/.bashrc
 # See https://github.com/containers/toolbox/issues/568
 gpg-agent --daemon 2>/dev/null
 
-toolbox run -c dev tmux -L toolbox
+toolbox run -c dev tmux new-session -A -s dev
