@@ -7,7 +7,7 @@
 ;; General display
 (visual-line-mode t)
 ;; (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
-(global-linum-mode t)
+(global-display-line-numbers-mode t)
 (column-number-mode t)
 (show-paren-mode t)
 (setq ring-bell-function 'ignore)
@@ -410,7 +410,7 @@
 ;; Theming
  (use-package solarized-theme
    :config
-   (load-theme 'solarized-dark t))
+   (load-theme 'solarized-wombat-dark t))
 
 (use-package frame-fns
   :config
