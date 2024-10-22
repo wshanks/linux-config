@@ -37,13 +37,25 @@ def ensure_external():
         return
 
     other_monitor = next(m for m in monitors if m != BUILTIN_MONITOR)
-    run(
-        ["gnome-monitor-config", "set", "-LpM", other_monitor],
-        check=True,
-        stdout=DEVNULL,
-        stderr=DEVNULL,
-    )
     print(f"Activating {other_monitor}")
+    for _ in range(3):
+        proc = run(
+            ["gnome-monitor-config", "set", "-LpM", other_monitor],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        if proc.returncode == 0:
+            break
+        else:
+            print(f"Error activating {other_monitor}")
+            print("stdout:")
+            print(proc.stdout)
+            print("stderr:")
+            print(proc.stderr)
+            time.sleep(0.5)
+    else:
+        raise RuntimeError("Unrecoverable errors encountered activating {other_monitor}")
 
 
 def main():
