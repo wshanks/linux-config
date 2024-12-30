@@ -118,7 +118,8 @@ if [ -f "$HOME/.conda/etc/profile.d/mamba.sh" ]; then
     . "$HOME/.conda/etc/profile.d/mamba.sh"
 fi
 # pixi
-pathadd "${HOME}/.pixi/bin" PATH
+export PIXI_HOME="${HOME}/.local/share/pixi"
+pathadd "${HOME}/.local/share/pixi/bin" PATH
 
 # docker (rootless)
 export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock

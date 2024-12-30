@@ -1,0 +1,31 @@
+version = 1
+
+[envs.black]
+channels = ["conda-forge"]
+dependencies = { black = "*" }
+exposed = { black = "black", blackd = "blackd" }
+
+[envs.pre-commit]
+channels = ["conda-forge"]
+dependencies = { pre-commit = "*" }
+exposed = { pre-commit = "pre-commit" }
+
+[envs.yamllint]
+channels = ["conda-forge"]
+dependencies = { yamllint = "*" }
+exposed = { yamllint = "yamllint" }
+
+[envs.ruff]
+channels = ["conda-forge"]
+dependencies = { ruff = "*" }
+exposed = { ruff = "ruff" }
+
+[envs.snakeviz]
+channels = ["conda-forge"]
+dependencies = { snakeviz = "*" }
+exposed = { snakeviz = "snakeviz" }
+
+[envs.jupyter]
+channels = ["conda-forge"]
+dependencies = { jupyter = "*", jupyter-lsp = "*", jupyterlab-lsp = "*", python-lsp-server = "*", python-lsp-black = "*", python-lsp-ruff = "*" }
+exposed = { jupyter = "jupyter" }
