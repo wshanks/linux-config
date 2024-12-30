@@ -34,3 +34,8 @@ exposed = { jupyter = "jupyter" }
 channels = ["conda-forge"]
 dependencies = { direnv = "*" }
 exposed = { direnv = "direnv" }
+
+[envs.jq]
+channels = ["conda-forge"]
+dependencies = { jq = "*" }
+exposed = { jq = "jq" }

@@ -222,6 +222,10 @@ fi
 
 # python
 alias pytestdb='pytest --pdb --pdbcls=pudb.debugger:Debugger'
+function install_pixikernel() {
+    local project_name="$(pixi info --json | jq -r .project_info.name)"
+    pixi run python -m ipykernel install --user --name "$project_name" --display-name "$project_name"
+}
 
 # toolbox
 if [ -n "${TOOLBOX_PATH}" ]; then
