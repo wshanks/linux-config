@@ -29,3 +29,8 @@ exposed = { snakeviz = "snakeviz" }
 channels = ["conda-forge"]
 dependencies = { jupyter = "*", jupyter-lsp = "*", jupyterlab-lsp = "*", python-lsp-server = "*", python-lsp-black = "*", python-lsp-ruff = "*" }
 exposed = { jupyter = "jupyter" }
+
+[envs.direnv]
+channels = ["conda-forge"]
+dependencies = { direnv = "*" }
+exposed = { direnv = "direnv" }

@@ -229,3 +229,7 @@ if [ -n "${TOOLBOX_PATH}" ]; then
     alias podman="flatpak-spawn --host podman"
     alias hostdnf="flatpak-spawn --host sudo dnf"
 fi
+
+# direnv
+eval "$(direnv hook bash)"
+
