@@ -237,3 +237,6 @@ fi
 # direnv
 eval "$(direnv hook bash)"
 
+# systemctl
+alias usystemctl="systemctl --user"
+alias ujournalctl="journalctl --user"
