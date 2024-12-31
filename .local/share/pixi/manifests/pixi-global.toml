@@ -42,5 +42,5 @@ exposed = { jq = "jq" }
 
 [envs.conda-smithy]
 channels = ["conda-forge"]
-dependencies = { conda-smithy = "*" }
+dependencies = { conda-smithy = "*" , python = ">=3.12" }
 exposed = { feedstocks = "feedstocks", conda-smithy = "conda-smithy" }
