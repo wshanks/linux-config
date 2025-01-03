@@ -40,7 +40,27 @@ channels = ["conda-forge"]
 dependencies = { jq = "*" }
 exposed = { jq = "jq" }
 
+[envs.grayskull]
+channels = ["conda-forge"]
+dependencies = { grayskull = "*" }
+exposed = { grayskull = "grayskull" }
+
 [envs.conda-smithy]
 channels = ["conda-forge"]
-dependencies = { conda-smithy = "*" , python = ">=3.12" }
+dependencies = { conda-smithy = "*" }
 exposed = { feedstocks = "feedstocks", conda-smithy = "conda-smithy" }
+
+[envs.rattler-build]
+channels = ["conda-forge"]
+dependencies = { rattler-build = "*" }
+exposed = { rattler-build = "rattler-build" }
+
+[envs.conda-build]
+channels = ["conda-forge"]
+dependencies = { conda-build = "*" }
+exposed = { conda-build = "conda-build", conda-convert = "conda-convert", conda-debug = "conda-debug", conda-develop = "conda-develop", conda-inspect = "conda-inspect", conda-metapackage = "conda-metapackage", conda-render = "conda-render", conda-skeleton = "conda-skeleton" }
+
+[envs.tox]
+channels = ["conda-forge"]
+dependencies = { tox = "*" }
+exposed = { tox = "tox" }
