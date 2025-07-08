@@ -535,13 +535,11 @@ end
 
 
 -- Future:
---   * Configure git difftool and git commit editor
 --   * Learn more lsp functions / setup (C-], K, diagnostics?)
+--   * Learn more about snippets
 --   * Get lsp formatting working? Until then learn to use gw instead of gq
 --   * telescope -- any value add over fzf?
 --   * telescope-undo?
---   * Consider https://github.com/windwp/nvim-autopairs instead of mini.pairs (are there cases where fancier closing would be helpful?)
---   * completion -- try blink.cmp? review builtin support (tab completion is hard)?
---   * Advanced ALE: completion?, go to definition?, find references?, hovering?, symbol search?, refactoring?
+--   * completion -- try blink.cmp?
 --   * Try to use the gitsigns mappings more (quick diff, blame, stage/unstage); check if fugitive is getting used any more
 -- Todo: document setting nerd font in Ptyxis
