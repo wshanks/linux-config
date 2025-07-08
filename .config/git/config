@@ -1,11 +1,13 @@
 [core]
-	editor = vim -u "$HOME/.config/git/vimrc"
+	editor = nvim
 [color]
 	ui = auto
 [push]
 	default = simple
 [magit]
 	hideCampaign = true
+[diff]
+tool = nvimdiff
 [diff "jupyternotebook"]
 	command = git-nbdiffdriver diff
 [merge "jupyternotebook"]
@@ -15,6 +17,8 @@
 	cmd = git-nbdifftool diff \"$LOCAL\" \"$REMOTE\" \"$BASE\"
 [difftool]
 	prompt = false
+[difftool "nvimdiff"]
+cmd = "nvim -d \"$LOCAL\" \"$REMOTE\""
 [mergetool "nbdime"]
 	cmd = git-nbmergetool merge \"$BASE\" \"$LOCAL\" \"$REMOTE\" \"$MERGED\"
 [mergetool]
@@ -27,3 +31,4 @@
     gpgSign = true
 [init]
     defaultBranch = main
+

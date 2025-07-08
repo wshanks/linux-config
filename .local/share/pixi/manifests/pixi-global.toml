@@ -2,7 +2,7 @@ version = 1
 
 [envs.black]
 channels = ["conda-forge"]
-dependencies = { black = "*" }
+dependencies = { black = "*", jupyter = "*" , ipython = "*", tokenize-rt = "*" }
 exposed = { black = "black", blackd = "blackd" }
 
 [envs.pre-commit]
@@ -27,7 +27,7 @@ exposed = { snakeviz = "snakeviz" }
 
 [envs.jupyter]
 channels = ["conda-forge"]
-dependencies = { jupyter = "*", jupyter-lsp = "*", jupyterlab-lsp = "*", python-lsp-server = "*", python-lsp-black = "*", python-lsp-ruff = "*" }
+dependencies = { jupyter = "*", jupyterlab_execute_time = "*", jupyter-lsp = "*", jupyterlab-lsp = "*", python-lsp-server = "*", python-lsp-black = "*", python-lsp-ruff = "*", jupyterlab_vim = "*" }
 exposed = { jupyter = "jupyter" }
 
 [envs.direnv]
@@ -60,7 +60,62 @@ channels = ["conda-forge"]
 dependencies = { conda-build = "*" }
 exposed = { conda-build = "conda-build", conda-convert = "conda-convert", conda-debug = "conda-debug", conda-develop = "conda-develop", conda-inspect = "conda-inspect", conda-metapackage = "conda-metapackage", conda-render = "conda-render", conda-skeleton = "conda-skeleton" }
 
+[envs.keyring]
+channels = ["conda-forge"]
+dependencies = { keyring = "*" }
+exposed = { keyring = "keyring" }
+
+[envs.uv]
+channels = ["conda-forge"]
+dependencies = { uv = "*" }
+exposed = { uv = "uv", uvx = "uvx" }
+
+[envs.pdm]
+channels = ["conda-forge"]
+dependencies = { pdm = "*", setuptools = "*" }
+exposed = { pdm = "pdm" }
+
 [envs.tox]
 channels = ["conda-forge"]
-dependencies = { tox = "*" }
+dependencies = { tox = "*", tox-current-env = "*", tox-uv = "*", python-uv = "*" }
 exposed = { tox = "tox" }
+
+[envs.feedrattler]
+channels = ["conda-forge"]
+dependencies = { feedrattler = "*" }
+exposed = { feedrattler = "feedrattler" }
+
+[envs.ipython]
+channels = ["conda-forge"]
+dependencies = { ipython = "*" }
+exposed = { ipython = "ipython", ipython3 = "ipython3" }
+
+[envs.python]
+channels = ["conda-forge"]
+dependencies = { python = "3.12.*" }
+exposed = { "python3.12" = "python3.12" }
+
+[envs.conda-recipe-manager]
+channels = ["conda-forge"]
+dependencies = { conda-recipe-manager = "*" }
+exposed = { conda-recipe-manager = "conda-recipe-manager", crm = "crm" }
+
+[envs.fish]
+channels = ["conda-forge"]
+dependencies = { fish = "*" }
+exposed = { fish = "fish", fish_indent = "fish_indent", fish_key_reader = "fish_key_reader" }
+
+[envs.bat]
+channels = ["conda-forge"]
+dependencies = { bat = "*" }
+exposed = { bat = "bat" }
+
+[envs.python-lsp-server]
+channels = ["conda-forge"]
+dependencies = { python-lsp-server = "*", python-lsp-ruff = "*", pylsp-rope = "*" }
+exposed = { pylsp = "pylsp" }
+
+[envs.lua-language-server]
+channels = ["conda-forge"]
+dependencies = { lua-language-server = "*" }
+exposed = { lua-language-server = "lua-language-server" }

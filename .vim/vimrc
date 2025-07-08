@@ -8,7 +8,7 @@ set nocompatible              " be iMproved, required
 
 call plug#begin()
 Plug 'mileszs/ack.vim'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'stephpy/vim-yaml'
 Plug 'Raimondi/delimitMate'
 Plug 'junegunn/fzf'
@@ -72,6 +72,7 @@ nnoremap <c-c> :pclose<CR>:lclose<CR>:cclose<CR>:helpclose<CR>
 " File types
 " .jsm files as .js files
 au BufRead,BufNewFile *.jsm setfiletype javascript
+au BufRead,BufNewFile *.j2 setfiletype jinja
 
 " Helper functions
 " Strip trailing whitespace on saving a file.
