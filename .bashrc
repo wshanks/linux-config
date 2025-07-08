@@ -240,3 +240,6 @@ eval "$(direnv hook bash)"
 # systemctl
 alias usystemctl="systemctl --user"
 alias ujournalctl="journalctl --user"
+
+# vim -- temporary until I learn to type nvim
+alias vim=nvim
