@@ -376,6 +376,7 @@ if ok then
         ["*"] = {"remove_trailing_lines", "trim_whitespace"},
         javascript = {"eslint"},
         python = {"ruff", "ruff_format"},
+        rust = {"rustfmt"}
     }
     vim.keymap.set({ 'n' }, '<C-n>', '<Plug>(ale_next_wrap)')
     vim.keymap.set({ 'n' }, '<Leader>l', '<Plug>(ale_fix)')
@@ -529,14 +530,16 @@ if ok then
             }
         }
     })
-    vim.lsp.enable('pylsp')
     vim.lsp.enable('luals')
+    vim.lsp.enable('pylsp')
+    vim.lsp.enable('rust_analyzer')
 end
 
 
 -- Future:
 --   * Learn more lsp functions / setup (C-], K, diagnostics?)
 --   * Learn more about snippets
+--   * Learn more about rustaceanvim, https://github.com/mrcjkb/rustaceanvim
 --   * Get lsp formatting working? Until then learn to use gw instead of gq
 --   * telescope -- any value add over fzf?
 --   * telescope-undo?
