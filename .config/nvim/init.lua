@@ -156,6 +156,15 @@ vim.api.nvim_create_autocmd('VimResized', {
   end,
 })
 
+-- Unset formatexpr because pylsp breaks comment wrapping
+vim.api.nvim_create_autocmd(
+  {"BufEnter", "LspAttach"}, {
+  pattern = "*.py",
+  callback = function()
+    vim.opt_local.formatexpr = ""
+  end,
+})
+
 -- Sync clipboard between OS and Neovim. Schedule the setting after `UiEnter` because it can
 -- increase startup-time. Remove this option if you want your OS clipboard to remain independent.
 -- See `:help 'clipboard'`
