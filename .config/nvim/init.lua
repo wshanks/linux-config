@@ -108,6 +108,18 @@ local set_root = function()
   -- Set current directory
   vim.fn.chdir(root)
 end
+local toggle_to_file = function()
+  -- goto file if not there. Otherwise, go to project root
+  local path = vim.api.nvim_buf_get_name(0)
+  if path == '' then return end
+  path = vim.fs.dirname(path)
+  if vim.uv.cwd() == path then
+        set_root()
+  else
+        vim.fn.chdir(path)
+  end
+end
+vim.keymap.set({ 'n' }, '<Leader>z', toggle_to_file)
 
 local root_augroup = vim.api.nvim_create_augroup('MyAutoRoot', {})
 vim.api.nvim_create_autocmd('BufEnter', { group = root_augroup, callback = set_root })
