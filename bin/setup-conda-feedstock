@@ -1,0 +1,84 @@
+#!/usr/bin/env python
+
+import argparse
+from pathlib import Path
+from subprocess import CompletedProcess, DEVNULL, run
+
+
+def extract_feedstock_name(url: str) -> str:
+    """
+    Extract repo name from:
+      - https://github.com/org/repo-feedstock
+      - https://github.com/org/repo-feedstock.git
+      - git@github.com:org/repo-feedstock.git
+    """
+    name = url.rstrip("/").rpartition("/")[-1]
+    name = name.removesuffix(".git")
+    return name
+
+
+def echo_run(
+    cmd: list[str],
+    cwd: Path = Path.cwd(),
+    text: bool | None = None,
+    capture_output: bool = False,
+) -> CompletedProcess:
+    print(f"\nRUNNING: {' '.join(cmd)}\n")
+    return run(cmd, cwd=cwd, text=text, capture_output=capture_output, stdin=DEVNULL)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Set up a conda-forge feedstock repository with proper remotes"
+    )
+    parser.add_argument(
+        "repo",
+        help="Repository URL or project name (e.g., 'pylint' for pylint-feedstock or full GitHub URL)",
+    )
+    args = parser.parse_args()
+
+    repo_input = args.repo
+
+    # If user passed just "project", convert to full URL for gh/git
+    if not repo_input.startswith("https://"):
+        repo_url = f"https://github.com/conda-forge/{repo_input}-feedstock"
+        feedstock = f"{repo_input}-feedstock"
+    else:
+        repo_url = repo_input
+        feedstock = extract_feedstock_name(repo_url)
+
+    # Extract OWNER/REPO format for gh command
+    gh_repo = (
+        repo_url.removeprefix("https://github.com/")
+        .removeprefix("git@github.com:")
+        .removesuffix(".git")
+    )
+
+    # Commands
+    proc = echo_run(
+        ["gh", "api", "user", "--jq", ".login"], text=True, capture_output=True
+    )
+    if proc.returncode == 0:
+        user = proc.stdout.strip()
+    else:
+        user = "wshanks"
+    echo_run(["gh", "repo", "fork", gh_repo])
+    echo_run(["git", "clone", repo_url, "--origin", "upstream"])
+    echo_run(
+        ["git", "remote", "add", "origin", f"git@github.com:{user}/{feedstock}.git"],
+        cwd=feedstock,
+    )
+    echo_run(
+        [
+            "git",
+            "remote",
+            "add",
+            "regro-cf-autotick-bot",
+            f"git@github.com:regro-cf-autotick-bot/{feedstock}.git",
+        ],
+        cwd=feedstock,
+    )
+
+
+if __name__ == "__main__":
+    main()
